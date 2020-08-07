@@ -1,0 +1,3 @@
+C:\Users\PirchHD\Desktop\Sorting\Sorting\x64\Debug\Sorting.vcxprojAssemblyReference.cache
+C:\Users\PirchHD\Desktop\Sorting\Sorting\x64\Debug\Sorting.MyForm.resources
+C:\Users\PirchHD\Desktop\Sorting\Sorting\x64\Debug\Sorting.vcxproj.GenerateResource.cache

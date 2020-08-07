@@ -76,7 +76,6 @@ namespace Sorting {
 			this->pictureBox1->Size = System::Drawing::Size(1000, 641);
 			this->pictureBox1->TabIndex = 0;
 			this->pictureBox1->TabStop = false;
-			this->pictureBox1->Click += gcnew System::EventHandler(this, &MyForm::pictureBox1_Click);
 			// 
 			// Start
 			// 
@@ -105,6 +104,7 @@ namespace Sorting {
 			this->Random->TabIndex = 3;
 			this->Random->Text = L"Random";
 			this->Random->UseVisualStyleBackColor = true;
+			this->Random->Click += gcnew System::EventHandler(this, &MyForm::Random_Click);
 			// 
 			// timer1
 			// 
@@ -122,7 +122,7 @@ namespace Sorting {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(1184, 639);
+			this->ClientSize = System::Drawing::Size(1183, 640);
 			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->Random);
 			this->Controls->Add(this->Sort);
@@ -139,18 +139,21 @@ namespace Sorting {
 
 		public: array<System::Windows::Forms::PictureBox^>^ Sektory;
 
-		int n = 100;
+		int n = 200;
 		int* tab = new int[n];
 
+		
 	// timer for front end :D
 
 	private: System::Void timer1_Tick(System::Object^ sender, System::EventArgs^ e) {
+		
 		pictureBox1->Height = MyForm::Height;
 		pictureBox1->Width = MyForm::Width - 200;
 
 		Start->Left = MyForm::Width - 150;
 		Random->Left = MyForm::Width - 150;
 		Sort->Left = MyForm::Width - 150;
+		textBox1->Left = MyForm::Width - 150;
 	}
 
 private: System::Void Start_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -161,21 +164,38 @@ private: System::Void Start_Click(System::Object^ sender, System::EventArgs^ e) 
 			tab[i] = v1;
 
 			Sektory[i] = gcnew System::Windows::Forms::PictureBox;
-			Sektory[i]->Location = System::Drawing::Point((pictureBox1->Width / n) * i, pictureBox1->Height - 500 + v1);
+			
+			Sektory[i]->Size = System::Drawing::Size(pictureBox1->Width / n, 200 + v1);
+
+			Sektory[i]->Location = System::Drawing::Point(pictureBox1->Width * i / n , pictureBox1->Height-Sektory[i]->Height - 39 );
+
 			Sektory[i]->Name = "Sektor" + i.ToString();
-			Sektory[i]->Size = System::Drawing::Size(pictureBox1->Width / n, pictureBox1->Bottom);
 			Sektory[i]->TabIndex = 5;
 			Sektory[i]->BackColor = Color::Red;
-			//Sektory[i]->Tag = (int)(i);
+			Sektory[i]->Tag = (int)(i);
 			Sektory[i]->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 
 			pictureBox1->Controls->Add(Sektory[i]);
 
 		}
+		Start->Enabled = false;
+		
+		MyForm::FormBorderStyle = System::Windows::Forms::FormBorderStyle::Fixed3D;
+		
+		MaximizeBox = false;
+		MinimizeBox = false;
+		
+}
+	   
+
+
+
+	   // RANDOM MORE !!!!
+private: System::Void Random_Click(System::Object^ sender, System::EventArgs^ e) {
+
+
 }
 
-private: System::Void pictureBox1_Click(System::Object^ sender, System::EventArgs^ e) {
-	//test
-}
+
 };
 }
