@@ -42,6 +42,7 @@ namespace Sorting {
 	private: System::Windows::Forms::Button^ Random;
 	private: System::Windows::Forms::Timer^ timer1;
 	private: System::Windows::Forms::TextBox^ textBox1;
+	private: System::Windows::Forms::Button^ Reset;
 
 	private: System::ComponentModel::IContainer^ components;
 
@@ -65,6 +66,7 @@ namespace Sorting {
 			this->Random = (gcnew System::Windows::Forms::Button());
 			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
+			this->Reset = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -89,7 +91,7 @@ namespace Sorting {
 			// 
 			// Sort
 			// 
-			this->Sort->Location = System::Drawing::Point(1043, 106);
+			this->Sort->Location = System::Drawing::Point(1043, 193);
 			this->Sort->Name = L"Sort";
 			this->Sort->Size = System::Drawing::Size(77, 29);
 			this->Sort->TabIndex = 2;
@@ -113,16 +115,27 @@ namespace Sorting {
 			// 
 			// textBox1
 			// 
-			this->textBox1->Location = System::Drawing::Point(1040, 22);
+			this->textBox1->Location = System::Drawing::Point(1034, 24);
 			this->textBox1->Name = L"textBox1";
 			this->textBox1->Size = System::Drawing::Size(101, 20);
 			this->textBox1->TabIndex = 4;
+			// 
+			// Reset
+			// 
+			this->Reset->Location = System::Drawing::Point(1043, 105);
+			this->Reset->Name = L"Reset";
+			this->Reset->Size = System::Drawing::Size(77, 29);
+			this->Reset->TabIndex = 5;
+			this->Reset->Text = L"Reset";
+			this->Reset->UseVisualStyleBackColor = true;
+			this->Reset->Click += gcnew System::EventHandler(this, &MyForm::Reset_Click);
 			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1183, 640);
+			this->Controls->Add(this->Reset);
 			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->Random);
 			this->Controls->Add(this->Sort);
@@ -139,8 +152,9 @@ namespace Sorting {
 
 		public: array<System::Windows::Forms::PictureBox^>^ Sektory;
 
-		int n = 200;
+		int n  = 99999;
 		int* tab = new int[n];
+
 
 		
 	// timer for front end :D
@@ -154,9 +168,12 @@ namespace Sorting {
 		Random->Left = MyForm::Width - 150;
 		Sort->Left = MyForm::Width - 150;
 		textBox1->Left = MyForm::Width - 150;
+		
 	}
 
 private: System::Void Start_Click(System::Object^ sender, System::EventArgs^ e) {
+		n = System::Convert::ToInt32(this -> textBox1->Text);
+
 		Sektory = gcnew array<System::Windows::Forms::PictureBox^>(n);
 		for (int i = 0; i < n; i++){
 
@@ -171,7 +188,7 @@ private: System::Void Start_Click(System::Object^ sender, System::EventArgs^ e) 
 
 			Sektory[i]->Name = "Sektor" + i.ToString();
 			Sektory[i]->TabIndex = 5;
-			Sektory[i]->BackColor = Color::Red;
+			Sektory[i]->BackColor = Color::White;
 			Sektory[i]->Tag = (int)(i);
 			Sektory[i]->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 
@@ -192,10 +209,21 @@ private: System::Void Start_Click(System::Object^ sender, System::EventArgs^ e) 
 
 	   // RANDOM MORE !!!!
 private: System::Void Random_Click(System::Object^ sender, System::EventArgs^ e) {
-
+	for (int i = 0; i < n; i++) {
+		int v2 = rand() % 300;
+		Sektory[i]->Size = System::Drawing::Size(pictureBox1->Width / n, 200 + v2);
+		Sektory[i]->Location = System::Drawing::Point(pictureBox1->Width * i / n, pictureBox1->Height - Sektory[i]->Height - 39);
+	}
 
 }
 
+	   //Reset this shit but u have to correct this
+private: System::Void Reset_Click(System::Object^ sender, System::EventArgs^ e) {
+	Start->Enabled = true;
+	for (int i = 0; i < n; i++) {
+		Sektory[i]->Visible = false;
+	}
 
+}
 };
 }
