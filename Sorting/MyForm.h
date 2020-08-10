@@ -40,9 +40,28 @@ namespace Sorting {
 	private: System::Windows::Forms::Button^ Start;
 	private: System::Windows::Forms::Button^ Sort;
 	private: System::Windows::Forms::Button^ Random;
-	private: System::Windows::Forms::Timer^ timer1;
-	private: System::Windows::Forms::TextBox^ textBox1;
+
+
 	private: System::Windows::Forms::Button^ Reset;
+
+
+	private: System::Windows::Forms::NumericUpDown^ numericUpDown1;
+	private: System::Windows::Forms::Timer^ timer1;
+	private: System::Windows::Forms::RadioButton^ BubbleSort;
+	private: System::Windows::Forms::RadioButton^ InsertionSort;
+	private: System::Windows::Forms::RadioButton^ QuickSort;
+
+
+
+
+
+
+
+
+
+
+
+
 
 	private: System::ComponentModel::IContainer^ components;
 
@@ -64,10 +83,14 @@ namespace Sorting {
 			this->Start = (gcnew System::Windows::Forms::Button());
 			this->Sort = (gcnew System::Windows::Forms::Button());
 			this->Random = (gcnew System::Windows::Forms::Button());
-			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->Reset = (gcnew System::Windows::Forms::Button());
+			this->numericUpDown1 = (gcnew System::Windows::Forms::NumericUpDown());
+			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
+			this->BubbleSort = (gcnew System::Windows::Forms::RadioButton());
+			this->InsertionSort = (gcnew System::Windows::Forms::RadioButton());
+			this->QuickSort = (gcnew System::Windows::Forms::RadioButton());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// pictureBox1
@@ -91,12 +114,13 @@ namespace Sorting {
 			// 
 			// Sort
 			// 
-			this->Sort->Location = System::Drawing::Point(1043, 193);
+			this->Sort->Location = System::Drawing::Point(1043, 198);
 			this->Sort->Name = L"Sort";
 			this->Sort->Size = System::Drawing::Size(77, 29);
 			this->Sort->TabIndex = 2;
 			this->Sort->Text = L"Let\'s Sort";
 			this->Sort->UseVisualStyleBackColor = true;
+			this->Sort->Click += gcnew System::EventHandler(this, &MyForm::Sort_Click);
 			// 
 			// Random
 			// 
@@ -108,18 +132,6 @@ namespace Sorting {
 			this->Random->UseVisualStyleBackColor = true;
 			this->Random->Click += gcnew System::EventHandler(this, &MyForm::Random_Click);
 			// 
-			// timer1
-			// 
-			this->timer1->Enabled = true;
-			this->timer1->Tick += gcnew System::EventHandler(this, &MyForm::timer1_Tick);
-			// 
-			// textBox1
-			// 
-			this->textBox1->Location = System::Drawing::Point(1034, 24);
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(101, 20);
-			this->textBox1->TabIndex = 4;
-			// 
 			// Reset
 			// 
 			this->Reset->Location = System::Drawing::Point(1043, 105);
@@ -130,13 +142,64 @@ namespace Sorting {
 			this->Reset->UseVisualStyleBackColor = true;
 			this->Reset->Click += gcnew System::EventHandler(this, &MyForm::Reset_Click);
 			// 
+			// numericUpDown1
+			// 
+			this->numericUpDown1->Location = System::Drawing::Point(1043, 35);
+			this->numericUpDown1->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 9999, 0, 0, 0 });
+			this->numericUpDown1->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 2, 0, 0, 0 });
+			this->numericUpDown1->Name = L"numericUpDown1";
+			this->numericUpDown1->Size = System::Drawing::Size(99, 20);
+			this->numericUpDown1->TabIndex = 8;
+			this->numericUpDown1->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 4, 0, 0, 0 });
+			// 
+			// timer1
+			// 
+			this->timer1->Enabled = true;
+			this->timer1->Tick += gcnew System::EventHandler(this, &MyForm::timer1_Tick_1);
+			// 
+			// BubbleSort
+			// 
+			this->BubbleSort->AutoSize = true;
+			this->BubbleSort->Location = System::Drawing::Point(1035, 256);
+			this->BubbleSort->Name = L"BubbleSort";
+			this->BubbleSort->Size = System::Drawing::Size(77, 17);
+			this->BubbleSort->TabIndex = 9;
+			this->BubbleSort->TabStop = true;
+			this->BubbleSort->Text = L"BubbleSort";
+			this->BubbleSort->UseVisualStyleBackColor = true;
+			// 
+			// InsertionSort
+			// 
+			this->InsertionSort->AutoSize = true;
+			this->InsertionSort->Location = System::Drawing::Point(1035, 279);
+			this->InsertionSort->Name = L"InsertionSort";
+			this->InsertionSort->Size = System::Drawing::Size(84, 17);
+			this->InsertionSort->TabIndex = 10;
+			this->InsertionSort->TabStop = true;
+			this->InsertionSort->Text = L"InsertionSort";
+			this->InsertionSort->UseVisualStyleBackColor = true;
+			// 
+			// QuickSort
+			// 
+			this->QuickSort->AutoSize = true;
+			this->QuickSort->Location = System::Drawing::Point(1035, 302);
+			this->QuickSort->Name = L"QuickSort";
+			this->QuickSort->Size = System::Drawing::Size(72, 17);
+			this->QuickSort->TabIndex = 11;
+			this->QuickSort->TabStop = true;
+			this->QuickSort->Text = L"QuickSort";
+			this->QuickSort->UseVisualStyleBackColor = true;
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1183, 640);
+			this->Controls->Add(this->QuickSort);
+			this->Controls->Add(this->InsertionSort);
+			this->Controls->Add(this->BubbleSort);
+			this->Controls->Add(this->numericUpDown1);
 			this->Controls->Add(this->Reset);
-			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->Random);
 			this->Controls->Add(this->Sort);
 			this->Controls->Add(this->Start);
@@ -144,6 +207,7 @@ namespace Sorting {
 			this->Name = L"MyForm";
 			this->Text = L"MyForm";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -159,20 +223,22 @@ namespace Sorting {
 		
 	// timer for front end :D
 
-	private: System::Void timer1_Tick(System::Object^ sender, System::EventArgs^ e) {
-		
+	private: System::Void timer1_Tick_1(System::Object^ sender, System::EventArgs^ e) {
 		pictureBox1->Height = MyForm::Height;
 		pictureBox1->Width = MyForm::Width - 200;
 
 		Start->Left = MyForm::Width - 150;
 		Random->Left = MyForm::Width - 150;
 		Sort->Left = MyForm::Width - 150;
-		textBox1->Left = MyForm::Width - 150;
-		
+		Reset->Left = MyForm::Width - 150;
+
+		numericUpDown1->Left = MyForm::Width - 150;
 	}
 
+
 private: System::Void Start_Click(System::Object^ sender, System::EventArgs^ e) {
-		n = System::Convert::ToInt32(this -> textBox1->Text);
+		n = Convert::ToInt32(numericUpDown1->Value);
+	
 
 		Sektory = gcnew array<System::Windows::Forms::PictureBox^>(n);
 		for (int i = 0; i < n; i++){
@@ -209,11 +275,13 @@ private: System::Void Start_Click(System::Object^ sender, System::EventArgs^ e) 
 
 	   // RANDOM MORE !!!!
 private: System::Void Random_Click(System::Object^ sender, System::EventArgs^ e) {
+	Random->Enabled = false;
 	for (int i = 0; i < n; i++) {
 		int v2 = rand() % 300;
 		Sektory[i]->Size = System::Drawing::Size(pictureBox1->Width / n, 200 + v2);
 		Sektory[i]->Location = System::Drawing::Point(pictureBox1->Width * i / n, pictureBox1->Height - Sektory[i]->Height - 39);
 	}
+	Random->Enabled = true;
 
 }
 
@@ -225,5 +293,49 @@ private: System::Void Reset_Click(System::Object^ sender, System::EventArgs^ e) 
 	}
 
 }
+private: System::Void Sort_Click(System::Object^ sender, System::EventArgs^ e) {
+	if (BubbleSort->Checked) {
+		Bubble();
+	}
+
+}
+
+//=================Sorting Algorithms=============================
+
+	   public: System::Void swap(int *xp, int *yp) {
+			int temp = *xp;
+			
+		   *xp = *yp;
+		   *yp = temp;
+	   };
+
+	private: System::Void Bubble() {
+		
+		bool swapped;
+
+		for (int i = 0; i < n-1; i++) {
+			swapped = false;
+			for (int j = 0; j < n - i - 1; j++) {
+				
+				if (Sektory[j]->Height > Sektory[j + 1]->Height) {
+
+					int temp = Sektory[j]->Height;
+					Sektory[j]->Height = Sektory[j + 1]->Height;
+					Sektory[j + 1]->Height = temp;
+					
+			
+					Sektory[j]->Location = System::Drawing::Point(pictureBox1->Width * j / n, pictureBox1->Height - Sektory[j]->Height - 39);
+					swapped = true;
+				}
+				Sektory[j+1]->Location = System::Drawing::Point(pictureBox1->Width * (j+1) / n, pictureBox1->Height - Sektory[j+1]->Height - 39 );
+				if (swapped == false) {
+					//break; u kave to change this
+				}
+				
+			}
+		}
+	
+	}
+
 };
 }
