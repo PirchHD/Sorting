@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdlib>
+#include <windows.h>
 
 namespace Sorting {
 
@@ -171,7 +172,7 @@ namespace Sorting {
 			// InsertionSort
 			// 
 			this->InsertionSort->AutoSize = true;
-			this->InsertionSort->Location = System::Drawing::Point(1035, 279);
+			this->InsertionSort->Location = System::Drawing::Point(1035, 302);
 			this->InsertionSort->Name = L"InsertionSort";
 			this->InsertionSort->Size = System::Drawing::Size(84, 17);
 			this->InsertionSort->TabIndex = 10;
@@ -182,7 +183,7 @@ namespace Sorting {
 			// QuickSort
 			// 
 			this->QuickSort->AutoSize = true;
-			this->QuickSort->Location = System::Drawing::Point(1035, 302);
+			this->QuickSort->Location = System::Drawing::Point(1035, 279);
 			this->QuickSort->Name = L"QuickSort";
 			this->QuickSort->Size = System::Drawing::Size(72, 17);
 			this->QuickSort->TabIndex = 11;
@@ -297,45 +298,87 @@ private: System::Void Sort_Click(System::Object^ sender, System::EventArgs^ e) {
 	if (BubbleSort->Checked) {
 		Bubble();
 	}
+	if (QuickSort->Checked) {
+		Quick();
+	}
+	if (InsertionSort->Checked) {
+		Insertion();
+	}
 
 }
 
 //=================Sorting Algorithms=============================
 
-	   public: System::Void swap(int *xp, int *yp) {
-			int temp = *xp;
+	   public: System::Void swap(int j) {
+			/*int temp = *xp;
 			
 		   *xp = *yp;
-		   *yp = temp;
+		   *yp = temp;*/
+
+			int temp = Sektory[j]->Height;
+			Sektory[j]->Height = Sektory[j + 1]->Height;
+			Sektory[j + 1]->Height = temp;
 	   };
 
 	private: System::Void Bubble() {
 		
 		bool swapped;
 
-		for (int i = 0; i < n-1; i++) {
+		for (int i = 0; i < n-1; i++) {	
 			swapped = false;
 			for (int j = 0; j < n - i - 1; j++) {
-				
-				if (Sektory[j]->Height > Sektory[j + 1]->Height) {
 
-					int temp = Sektory[j]->Height;
-					Sektory[j]->Height = Sektory[j + 1]->Height;
-					Sektory[j + 1]->Height = temp;
+				if (Sektory[j]->Height > Sektory[j + 1]->Height) {
+					Sektory[j]->BackColor = Color::Green;
+
 					
-			
+					swap(j);
+					
 					Sektory[j]->Location = System::Drawing::Point(pictureBox1->Width * j / n, pictureBox1->Height - Sektory[j]->Height - 39);
+					
 					swapped = true;
+			
+					Application::DoEvents();
+
+					Sektory[j]->BackColor = Color::White;
+
 				}
 				Sektory[j+1]->Location = System::Drawing::Point(pictureBox1->Width * (j+1) / n, pictureBox1->Height - Sektory[j+1]->Height - 39 );
-				if (swapped == false) {
-					//break; u kave to change this
-				}
 				
+			}
+			if (swapped == false) {
+				for (int i = 0; i < n; i++) {
+					Sektory[i]->BackColor = Color::Green;
+					Application::DoEvents();
+					System::Threading::Thread::Sleep(25);
+				}
 			}
 		}
 	
 	}
+
+	private: System::Void Quick() {
+			for (int i = 0; i < n; i++) {
+				Sektory[i]->BackColor = Color::Green;
+			}
+	}
+	
+	private: System::Void Insertion() {
+		int i, key, j;
+		
+		for (i = 1; i < n; i++) {
+			key = Sektory[i]->Height;
+			j = i - 1;
+
+			while (j >= 0 && Sektory[j]->Height > key) {
+				Sektory[j]->Height = Sektory[j + 1]->Height;
+				j = j - 1;
+			}
+			Sektory[j + 1]->Height = key;		
+		}
+
+	}
+
 
 };
 }
