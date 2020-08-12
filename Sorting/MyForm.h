@@ -215,14 +215,14 @@ namespace Sorting {
 		}
 #pragma endregion
 
-		public: array<System::Windows::Forms::PictureBox^>^ Sektory;
+	public: array<System::Windows::Forms::PictureBox^>^ Sektory;
 
-		int n  = 99999;
-		int* tab = new int[n];
+		  int n = 99999;
+		  int* tab = new int[n];
 
 
-		
-	// timer for front end :D
+
+		  // timer for front end :D
 
 	private: System::Void timer1_Tick_1(System::Object^ sender, System::EventArgs^ e) {
 		pictureBox1->Height = MyForm::Height;
@@ -237,21 +237,21 @@ namespace Sorting {
 	}
 
 
-private: System::Void Start_Click(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void Start_Click(System::Object^ sender, System::EventArgs^ e) {
 		n = Convert::ToInt32(numericUpDown1->Value);
-	
+
 
 		Sektory = gcnew array<System::Windows::Forms::PictureBox^>(n);
-		for (int i = 0; i < n; i++){
+		for (int i = 0; i < n; i++) {
 
 			int v1 = rand() % 300;
 			tab[i] = v1;
 
 			Sektory[i] = gcnew System::Windows::Forms::PictureBox;
-			
+
 			Sektory[i]->Size = System::Drawing::Size(pictureBox1->Width / n, 200 + v1);
 
-			Sektory[i]->Location = System::Drawing::Point(pictureBox1->Width * i / n , pictureBox1->Height-Sektory[i]->Height - 39 );
+			Sektory[i]->Location = System::Drawing::Point(pictureBox1->Width * i / n, pictureBox1->Height - Sektory[i]->Height - 39);
 
 			Sektory[i]->Name = "Sektor" + i.ToString();
 			Sektory[i]->TabIndex = 5;
@@ -263,61 +263,71 @@ private: System::Void Start_Click(System::Object^ sender, System::EventArgs^ e) 
 
 		}
 		Start->Enabled = false;
-		
-		MyForm::FormBorderStyle = System::Windows::Forms::FormBorderStyle::Fixed3D;
-		
+
+		//MyForm::FormBorderStyle = System::Windows::Forms::FormBorderStyle::Fixed3D;
+
 		MaximizeBox = false;
 		MinimizeBox = false;
-		
-}
-	   
 
-
-
-	   // RANDOM MORE !!!!
-private: System::Void Random_Click(System::Object^ sender, System::EventArgs^ e) {
-	Random->Enabled = false;
-	for (int i = 0; i < n; i++) {
-		int v2 = rand() % 300;
-		Sektory[i]->Size = System::Drawing::Size(pictureBox1->Width / n, 200 + v2);
-		Sektory[i]->Location = System::Drawing::Point(pictureBox1->Width * i / n, pictureBox1->Height - Sektory[i]->Height - 39);
-	}
-	Random->Enabled = true;
-
-}
-
-	   //Reset this shit but u have to correct this
-private: System::Void Reset_Click(System::Object^ sender, System::EventArgs^ e) {
-	Start->Enabled = true;
-	for (int i = 0; i < n; i++) {
-		Sektory[i]->Visible = false;
 	}
 
-}
-private: System::Void Sort_Click(System::Object^ sender, System::EventArgs^ e) {
-	if (BubbleSort->Checked) {
-		Bubble();
+
+
+
+		   // RANDOM MORE !!!!
+	private: System::Void Random_Click(System::Object^ sender, System::EventArgs^ e) {
+		Random->Enabled = false;
+		for (int i = 0; i < n; i++) {
+			int v2 = rand() % 300;
+			Sektory[i]->Size = System::Drawing::Size(pictureBox1->Width / n, 200 + v2);
+			Sektory[i]->Location = System::Drawing::Point(pictureBox1->Width * i / n, pictureBox1->Height - Sektory[i]->Height - 39);
+		}
+		Random->Enabled = true;
+
 	}
-	if (QuickSort->Checked) {
-		Quick();
+
+		   //Reset this shit but u have to correct this
+	private: System::Void Reset_Click(System::Object^ sender, System::EventArgs^ e) {
+		Start->Enabled = true;
+		for (int i = 0; i < n; i++) {
+			Sektory[i]->Visible = false;
+		}
+
 	}
-	if (InsertionSort->Checked) {
-		Insertion();
+	private: System::Void Sort_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (BubbleSort->Checked) {
+			Bubble();
+		}
+		if (QuickSort->Checked) {
+			Quick();
+		}
+		if (InsertionSort->Checked) {
+			Insertion();
+		}
+
 	}
 
-}
+		   //=================Sorting Algorithms=============================
 
-//=================Sorting Algorithms=============================
+	public: System::Void LooksOk() {
+		for (int k = 0; k < n; k++) {
+			Sektory[k]->Location = System::Drawing::Point(pictureBox1->Width * (k) / n, pictureBox1->Height - Sektory[k]->Height - 39);
+		}
 
-	   public: System::Void swap(int j) {
-			/*int temp = *xp;
-			
-		   *xp = *yp;
-		   *yp = temp;*/
+	}
 
-			int temp = Sektory[j]->Height;
-			Sektory[j]->Height = Sektory[j + 1]->Height;
-			Sektory[j + 1]->Height = temp;
+	private: System::Void Verification() {
+		for (int i = 0; i < n; i++) {
+			Sektory[i]->BackColor = Color::Green;
+			Application::DoEvents();
+			System::Threading::Thread::Sleep(25);
+		}
+	}
+
+	public: System::Void swap(int j) {
+		int temp = Sektory[j]->Height;
+		Sektory[j]->Height = Sektory[j + 1]->Height;
+		Sektory[j + 1]->Height = temp;
 	   };
 
 	private: System::Void Bubble() {
@@ -346,12 +356,9 @@ private: System::Void Sort_Click(System::Object^ sender, System::EventArgs^ e) {
 				Sektory[j+1]->Location = System::Drawing::Point(pictureBox1->Width * (j+1) / n, pictureBox1->Height - Sektory[j+1]->Height - 39 );
 				
 			}
+			
 			if (swapped == false) {
-				for (int i = 0; i < n; i++) {
-					Sektory[i]->BackColor = Color::Green;
-					Application::DoEvents();
-					System::Threading::Thread::Sleep(25);
-				}
+				Verification();
 			}
 		}
 	
@@ -368,14 +375,22 @@ private: System::Void Sort_Click(System::Object^ sender, System::EventArgs^ e) {
 		
 		for (i = 1; i < n; i++) {
 			key = Sektory[i]->Height;
-			j = i - 1;
-
-			while (j >= 0 && Sektory[j]->Height > key) {
-				Sektory[j]->Height = Sektory[j + 1]->Height;
-				j = j - 1;
+			Sektory[i]->BackColor = Color::Green;
+			for (j = i - 1; j >= 0 && Sektory[j]->Height > key; j--) {
+				Sektory[j]->BackColor = Color::Red;
+				Sektory[j + 1]->Height = Sektory[j]->Height;
+				// i can change this and use fuction swap() so change this later
+				Sektory[j]->Location = System::Drawing::Point(pictureBox1->Width * (j) / n, pictureBox1->Height - Sektory[j]->Height - 39);
+				Application::DoEvents();		
+				Sektory[j]->BackColor = Color::White;
 			}
-			Sektory[j + 1]->Height = key;		
+			Sektory[i]->BackColor = Color::White;
+			Sektory[j + 1]->Height = key;	
 		}
+
+		LooksOk(); // i have to change this. This is to get around the problem. Aligns the blocks correctly
+		
+		Verification();
 
 	}
 

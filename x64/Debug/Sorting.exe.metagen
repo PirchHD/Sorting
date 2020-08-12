@@ -24,4 +24,5 @@ Class Sorting.MyForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
     Int32 n : Public
     Int32* tab : Public
   Methods:
+    LooksOk(): PrivateScope, Public, HideBySig
     swap(Int32): PrivateScope, Public, HideBySig
