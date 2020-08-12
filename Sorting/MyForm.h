@@ -233,6 +233,10 @@ namespace Sorting {
 		Sort->Left = MyForm::Width - 150;
 		Reset->Left = MyForm::Width - 150;
 
+		BubbleSort->Left = MyForm::Width - 150;
+		QuickSort->Left =  MyForm::Width - 150;
+		InsertionSort->Left  = MyForm::Width - 150;;
+
 		numericUpDown1->Left = MyForm::Width - 150;
 	}
 
@@ -299,7 +303,8 @@ namespace Sorting {
 			Bubble();
 		}
 		if (QuickSort->Checked) {
-			Quick();
+			Quick(0,n-1);
+			Verification();
 		}
 		if (InsertionSort->Checked) {
 			Insertion();
@@ -320,7 +325,7 @@ namespace Sorting {
 		for (int i = 0; i < n; i++) {
 			Sektory[i]->BackColor = Color::Green;
 			Application::DoEvents();
-			System::Threading::Thread::Sleep(25);
+			System::Threading::Thread::Sleep(15);
 		}
 	}
 
@@ -364,10 +369,35 @@ namespace Sorting {
 	
 	}
 
-	private: System::Void Quick() {
-			for (int i = 0; i < n; i++) {
-				Sektory[i]->BackColor = Color::Green;
+	private: System::Void Quick(int left, int right) {
+		int i = left, j = right;
+		int tmp;
+		int pivot = Sektory[(i + j) / 2] -> Height;
+
+
+		while (i <= j ) {
+			while (Sektory[i]->Height < pivot) i++;
+			while (Sektory[j]->Height > pivot) j--;
+			if (i <= j) {
+				Sektory[j]->BackColor = Color::Green;
+				tmp = Sektory[i]->Height;
+
+				Sektory[i]->Height = Sektory[j]->Height;
+				Sektory[j]->Height = tmp;
+
+				Sektory[j]->Location = System::Drawing::Point(pictureBox1->Width * j / n, pictureBox1->Height - Sektory[j]->Height - 39);
+				Application::DoEvents();
+
+				Sektory[j]->BackColor = Color::White;
+
+				i++; j--;
 			}
+			Sektory[i-1]->Location = System::Drawing::Point(pictureBox1->Width * (i-1) / n, pictureBox1->Height - Sektory[i-1]->Height - 39);
+
+		}
+		if (left < j) Quick(left, j);
+		if (i < right) Quick(i, right);
+		
 	}
 	
 	private: System::Void Insertion() {
