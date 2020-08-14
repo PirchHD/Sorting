@@ -51,6 +51,8 @@ namespace Sorting {
 	private: System::Windows::Forms::RadioButton^ BubbleSort;
 	private: System::Windows::Forms::RadioButton^ InsertionSort;
 	private: System::Windows::Forms::RadioButton^ QuickSort;
+	private: System::Windows::Forms::RadioButton^ MergeSort;
+
 
 
 
@@ -90,6 +92,7 @@ namespace Sorting {
 			this->BubbleSort = (gcnew System::Windows::Forms::RadioButton());
 			this->InsertionSort = (gcnew System::Windows::Forms::RadioButton());
 			this->QuickSort = (gcnew System::Windows::Forms::RadioButton());
+			this->MergeSort = (gcnew System::Windows::Forms::RadioButton());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->BeginInit();
 			this->SuspendLayout();
@@ -191,11 +194,23 @@ namespace Sorting {
 			this->QuickSort->Text = L"QuickSort";
 			this->QuickSort->UseVisualStyleBackColor = true;
 			// 
+			// MergeSort
+			// 
+			this->MergeSort->AutoSize = true;
+			this->MergeSort->Location = System::Drawing::Point(1035, 325);
+			this->MergeSort->Name = L"MergeSort";
+			this->MergeSort->Size = System::Drawing::Size(74, 17);
+			this->MergeSort->TabIndex = 12;
+			this->MergeSort->TabStop = true;
+			this->MergeSort->Text = L"MergeSort";
+			this->MergeSort->UseVisualStyleBackColor = true;
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1183, 640);
+			this->Controls->Add(this->MergeSort);
 			this->Controls->Add(this->QuickSort);
 			this->Controls->Add(this->InsertionSort);
 			this->Controls->Add(this->BubbleSort);
@@ -235,7 +250,8 @@ namespace Sorting {
 
 		BubbleSort->Left = MyForm::Width - 150;
 		QuickSort->Left =  MyForm::Width - 150;
-		InsertionSort->Left  = MyForm::Width - 150;;
+		InsertionSort->Left  = MyForm::Width - 150;
+		MergeSort->Left = MyForm::Width - 150;;
 
 		numericUpDown1->Left = MyForm::Width - 150;
 	}
@@ -308,6 +324,12 @@ namespace Sorting {
 		}
 		if (InsertionSort->Checked) {
 			Insertion();
+			Verification();
+		}
+		if (MergeSort->Checked) {
+			Merge_Sort(0,n-1);
+			Verification();
+			
 		}
 
 	}
@@ -424,6 +446,62 @@ namespace Sorting {
 
 	}
 
+	private: System::Void Merge_Sort(int start,int koniec) {
+		int srodek;
+
+		if (start != koniec)
+		{
+			srodek = (start + koniec) / 2;
+			Merge_Sort(start, srodek);
+			Merge_Sort(srodek + 1, koniec);
+			Marge( start, srodek, koniec);
+		}
+
+	}
+
+	private: System::Void Marge(int start,int srodek,int koniec) {
+	
+		int* temp = new int[n];
+
+		for (int Z = 0; Z < n; Z++) {
+			temp[Z] = Sektory[Z]->Height;
+		}
+
+		int i = start, j = srodek + 1, k = 0;
+
+		while (i <= srodek && j <= koniec) {
+			if (Sektory[j]->Height < Sektory[i]->Height) {
+				temp[k]= Sektory[j]->Height;
+				j++;
+			}
+			else {
+				temp[k] = Sektory[i]->Height;
+				i++;
+			}
+			k++;
+		}
+
+		if (i <= srodek) {
+			while (i <= srodek) {
+				temp[k] = Sektory[i]->Height;
+				i++; k++;
+			}
+		}
+		else {
+			while (j <= koniec) {
+				temp[k] = Sektory[j]->Height;
+				j++; k++;
+			}
+		}
+		for (i = 0; i <= koniec - start; i++) {
+			Sektory[start + i]->BackColor = Color::Red;
+			Sektory[start + i]->Height = temp[i];
+			Sektory[start + i]->Location = System::Drawing::Point(pictureBox1->Width * (start + i) / n, pictureBox1->Height - Sektory[start + i]->Height - 39);
+			Application::DoEvents();
+			Sektory[start + i]->BackColor = Color::White;
+		}
+
+	}
 
 };
 }
