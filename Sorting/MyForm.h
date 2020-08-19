@@ -54,6 +54,10 @@ namespace Sorting {
 	private: System::Windows::Forms::RadioButton^ MergeSort;
 	private: System::Windows::Forms::RadioButton^ SelectionSort;
 	private: System::Windows::Forms::RadioButton^ HeapSort;
+	private: System::Windows::Forms::Timer^ timer2;
+	private: System::Windows::Forms::Label^ label1;
+	private: System::Windows::Forms::Label^ label2;
+	private: System::Windows::Forms::Label^ label3;
 
 
 
@@ -97,6 +101,10 @@ namespace Sorting {
 			this->MergeSort = (gcnew System::Windows::Forms::RadioButton());
 			this->SelectionSort = (gcnew System::Windows::Forms::RadioButton());
 			this->HeapSort = (gcnew System::Windows::Forms::RadioButton());
+			this->timer2 = (gcnew System::Windows::Forms::Timer(this->components));
+			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->label3 = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->BeginInit();
 			this->SuspendLayout();
@@ -233,11 +241,52 @@ namespace Sorting {
 			this->HeapSort->Text = L"HeapSort";
 			this->HeapSort->UseVisualStyleBackColor = true;
 			// 
+			// timer2
+			// 
+			this->timer2->Interval = 1000;
+			this->timer2->Tick += gcnew System::EventHandler(this, &MyForm::timer2_Tick);
+			// 
+			// label1
+			// 
+			this->label1->AutoSize = true;
+			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->label1->Location = System::Drawing::Point(1044, 72);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(26, 18);
+			this->label1->TabIndex = 15;
+			this->label1->Text = L"00";
+			// 
+			// label2
+			// 
+			this->label2->AutoSize = true;
+			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->label2->Location = System::Drawing::Point(1017, 72);
+			this->label2->Name = L"label2";
+			this->label2->Size = System::Drawing::Size(26, 18);
+			this->label2->TabIndex = 16;
+			this->label2->Text = L"00";
+			// 
+			// label3
+			// 
+			this->label3->AutoSize = true;
+			this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->label3->Location = System::Drawing::Point(1037, 70);
+			this->label3->Name = L"label3";
+			this->label3->Size = System::Drawing::Size(13, 18);
+			this->label3->TabIndex = 17;
+			this->label3->Text = L":";
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(1183, 640);
+			this->ClientSize = System::Drawing::Size(1185, 640);
+			this->Controls->Add(this->label2);
+			this->Controls->Add(this->label1);
+			this->Controls->Add(this->label3);
 			this->Controls->Add(this->HeapSort);
 			this->Controls->Add(this->SelectionSort);
 			this->Controls->Add(this->MergeSort);
@@ -262,7 +311,8 @@ namespace Sorting {
 
 	private: array<System::Windows::Forms::PictureBox^>^ Sektory;
 
-		  int n = 99999;
+		  int n = 9999;
+		  int timeS = 0,timeM = 0;
 		  int* tab = new int[n];
 
 
@@ -278,6 +328,10 @@ namespace Sorting {
 		Sort->Left = MyForm::Width - 100;
 		Reset->Left = MyForm::Width - 190;
 
+		label1->Left = MyForm::Width - 160; // 00
+		label2->Left = MyForm::Width - 190; // 00
+		label3->Left = MyForm::Width - 170; // :
+
 		BubbleSort->Left = MyForm::Width - 190;
 		QuickSort->Left =  MyForm::Width - 100;
 		InsertionSort->Left  = MyForm::Width - 190;
@@ -288,8 +342,20 @@ namespace Sorting {
 		numericUpDown1->Left = MyForm::Width - 190;
 	}
 
+	//timer for time?
+	private: System::Void timer2_Tick(System::Object^ sender, System::EventArgs^ e) {
+		timeS++;
+		label1->Text = Convert::ToString(timeS);
+		if (timeS >=60) {
+			timeS = 0;
+			timeM++;
+			label2->Text = Convert::ToString(timeM);
+		}
+	}
 
-	private: System::Void Start_Click(System::Object^ sender, System::EventArgs^ e) {
+
+		private: System::Void Start_Click(System::Object^ sender, System::EventArgs^ e) {
+
 		n = Convert::ToInt32(numericUpDown1->Value);
 
 
@@ -305,10 +371,8 @@ namespace Sorting {
 
 			Sektory[i]->Location = System::Drawing::Point(pictureBox1->Width * i / n, pictureBox1->Height - Sektory[i]->Height - 39);
 
-			Sektory[i]->Name = "Sektor" + i.ToString();
-			Sektory[i]->TabIndex = 5;
 			Sektory[i]->BackColor = Color::White;
-			Sektory[i]->Tag = (int)(i);
+
 			Sektory[i]->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 
 			pictureBox1->Controls->Add(Sektory[i]);
@@ -341,6 +405,8 @@ namespace Sorting {
 		   //Reset this shit but u have to correct this
 	private: System::Void Reset_Click(System::Object^ sender, System::EventArgs^ e) {
 		Start->Enabled = true;
+		label1->Text = "00";
+		label2->Text = "00";
 		for (int i = 0; i < n; i++) {
 			Sektory[i]->Visible = false;
 		}
@@ -348,27 +414,46 @@ namespace Sorting {
 	}
 	private: System::Void Sort_Click(System::Object^ sender, System::EventArgs^ e) {
 		if (BubbleSort->Checked) {
+			timeS = 0; timeM = 0;
+			timer2->Enabled = true;
 			Bubble();
+			//Verification();
+			//timer2->Enabled = false; it is in fuction bubble sort.
 		}
 		if (QuickSort->Checked) {
+			timeS = 0; timeM = 0;
+			timer2->Enabled = true;
 			Quick(0,n-1);
 			Verification();
+			timer2->Enabled = false;
 		}
 		if (InsertionSort->Checked) {
+			timeS = 0; timeM = 0;
+			timer2->Enabled = true;
 			Insertion();
 			Verification();
+			timer2->Enabled = false;
 		}
 		if (MergeSort->Checked) {
+			timeS = 0; timeM = 0;
+			timer2->Enabled = true;
 			Merge_Sort(0,n-1);
 			Verification();
+			timer2->Enabled = false;
 		}
 		if (SelectionSort->Checked) {
+			timeS = 0; timeM = 0;
+			timer2->Enabled = true;
 			Selection();
 			Verification();
+			timer2->Enabled = false;
 		}
 		if (HeapSort->Checked) {
+			timeS = 0; timeM = 0;
+			timer2->Enabled = true;
 			Heap();
 			Verification();
+			timer2->Enabled = false;
 		}
 
 	}
@@ -391,16 +476,15 @@ namespace Sorting {
 	}
 
 	public: System::Void swap(int xp, int yp) {
-		
-		/*int ^temp = xp;
-		xp = yp;
-		yp = temp;*/
-		
+
 		int temp = Sektory[xp]->Height;
 		Sektory[xp]->Height = Sektory[yp]->Height;
 		Sektory[yp]->Height = temp;
+
 	   };
 
+
+		  //================================BUBBLESORT===============================================
 	private: System::Void Bubble() {
 		
 		bool swapped;
@@ -430,10 +514,13 @@ namespace Sorting {
 			
 			if (swapped == false) {
 				Verification();
+				timer2->Enabled = false;
 			}
 		}
 	
 	}
+
+		   //================================QUICKSORT===============================================
 
 	private: System::Void Quick(int left, int right) {
 		int i = left, j = right;
@@ -465,6 +552,8 @@ namespace Sorting {
 		if (i < right) Quick(i, right);
 		
 	}
+
+		   //================================INSERTIONSORT===============================================
 	
 	private: System::Void Insertion() {
 		int i, key, j;
@@ -476,12 +565,13 @@ namespace Sorting {
 				Sektory[j]->BackColor = Color::Red;
 				Sektory[j + 1]->Height = Sektory[j]->Height;
 				// i can change this and use fuction swap() so change this later
-				Sektory[j]->Location = System::Drawing::Point(pictureBox1->Width * (j) / n, pictureBox1->Height - Sektory[j]->Height - 39);
+				Sektory[j+1]->Location = System::Drawing::Point(pictureBox1->Width * (j) / n, pictureBox1->Height - Sektory[j]->Height - 39);
 				Application::DoEvents();		
 				Sektory[j]->BackColor = Color::White;
 			}
 			Sektory[i]->BackColor = Color::White;
 			Sektory[j + 1]->Height = key;	
+
 		}
 
 		LooksOk(); // i have to change this. This get around the problem. Aligns the blocks correctly
@@ -489,6 +579,8 @@ namespace Sorting {
 		Verification();
 
 	}
+
+		   //================================MERGESORT===============================================
 
 	private: System::Void Merge_Sort(int start,int koniec) {
 		int srodek;
@@ -547,6 +639,8 @@ namespace Sorting {
 
 	}
 
+		   //================================SELECTIONSORT===============================================
+
 	private: System::Void Selection() {
 		int i, j, min_idx;
 		for (i = 0; i < n - 1; i++) {
@@ -562,6 +656,7 @@ namespace Sorting {
 		}
 	}
 
+		   //================================HEAPSORT===============================================
 
 	private: System::Void heapify(int n, int i) {
 
@@ -601,8 +696,6 @@ namespace Sorting {
 		}
 
 	}
-
-
 
 
 };
